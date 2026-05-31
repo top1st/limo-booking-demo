@@ -2,8 +2,8 @@
 
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { FloatingInput } from "@/components/ui/FloatingInput";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 import type { BookingFormValues } from "@/lib/validation";
-import { formatPhoneDisplay } from "@/lib/phone";
 
 interface ContactSectionProps {
   control: Control<BookingFormValues>;
@@ -81,29 +81,22 @@ export function ContactSection({
               >
                 Phone
               </label>
-              <div className="flex items-center">
-                <span className="pl-3 text-muted">{FlagIcon()}</span>
-                <span className="pr-1 text-sm text-foreground">+1</span>
-                <input
+              <PhoneInput
                   id="phone"
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel-national"
                   value={field.value}
-                  onChange={(event) => {
-                    const digits = event.target.value
-                      .replace(/\D/g, "")
-                      .slice(0, 10);
-                    field.onChange(formatPhoneDisplay(digits));
-                  }}
+                  onChange={field.onChange}
                   onBlur={() => {
                     field.onBlur();
                     onPhoneBlur();
                   }}
                   placeholder="774 415 3244"
-                  className="w-full bg-transparent py-3 pr-3 text-sm text-foreground outline-none placeholder:text-gray-400"
+                  prefix={
+                    <>
+                      <span className="pl-3 text-muted">{FlagIcon()}</span>
+                      <span className="pr-1 text-sm text-foreground">+1</span>
+                    </>
+                  }
                 />
-              </div>
             </div>
             {errors.phone ? (
               <p className="mt-1 text-xs text-error">{errors.phone.message}</p>
