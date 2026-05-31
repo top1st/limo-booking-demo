@@ -143,8 +143,8 @@ data/seed.json            # Demo customer seed data
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build (uses webpack on Windows) |
+| `npm run dev` | Start development server (webpack; avoids Turbopack crashes on some Windows setups) |
+| `npm run build` | Production build (webpack) |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run test` | Run all tests (API + frontend) |
