@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Customer {
+  phone     String    @id
+  firstName String    @map("first_name")
+  lastName  String    @map("last_name")
+  email     String
+  createdAt DateTime  @default(now()) @map("created_at")
+  bookings  Booking[]
+
+  @@map("customers")
+}
+
+model Booking {
+  id              String   @id
+  serviceType     String   @map("service_type")
+  pickupDate      String   @map("pickup_date")
+  pickupTime      String   @map("pickup_time")
+  pickupAddress   String   @map("pickup_address")
+  dropoffAddress  String?  @map("dropoff_address")
+  stopsJson       String   @default("[]") @map("stops_json")
+  hourlyDuration  Int?     @map("hourly_duration")
+  phone           String
+  customerName    String?  @map("customer_name")
+  email           String?
+  passengers      Int
+  distanceMeters  Int?     @map("distance_meters")
+  durationSeconds Int?     @map("duration_seconds")
+  payloadJson     String   @map("payload_json")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  customer Customer? @relation(fields: [phone], references: [phone])
+
+  @@map("bookings")
+}

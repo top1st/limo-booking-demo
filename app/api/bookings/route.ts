@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     const payload = normalizeBookingPayload(parsed.data);
     const normalizedPhone = normalizePhone(payload.phone);
-    const existingCustomer = lookupCustomer(normalizedPhone);
+    const existingCustomer = await lookupCustomer(normalizedPhone);
     const customerFound = existingCustomer.found;
 
     let routeEstimate: RouteEstimate | undefined = body.routeEstimate;
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      upsertCustomer({
+      await upsertCustomer({
         phone: normalizedPhone,
         firstName: payload.firstName,
         lastName: payload.lastName,
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       routeEstimate,
     };
 
-    saveBooking(bookingPayload, bookingId);
+    await saveBooking(bookingPayload, bookingId);
 
     const customerName =
       bookingPayload.firstName && bookingPayload.lastName

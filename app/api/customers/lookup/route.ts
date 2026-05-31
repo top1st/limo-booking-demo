@@ -13,6 +13,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Invalid phone number" }, { status: 400 });
   }
 
-  const result = lookupCustomer(normalizePhone(phone));
+  const result = await lookupCustomer(normalizePhone(phone));
   return NextResponse.json(result);
 }
