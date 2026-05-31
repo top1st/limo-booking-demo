@@ -67,25 +67,48 @@ export function ContactSection({
         name="phone"
         control={control}
         render={({ field }) => (
-          <FloatingInput
-            label="Phone"
-            icon={FlagIcon()}
-            value={field.value ? `+1 ${field.value}` : "+1 "}
-            onChange={(event) => {
-              const digits = event.target.value.replace(/\D/g, "");
-              const national =
-                digits.startsWith("1") && digits.length > 10
-                  ? digits.slice(1, 11)
-                  : digits.slice(0, 10);
-              field.onChange(formatPhoneDisplay(national));
-            }}
-            onBlur={() => {
-              field.onBlur();
-              onPhoneBlur();
-            }}
-            placeholder="+1 774 415 3244"
-            error={errors.phone?.message}
-          />
+          <div>
+            <div
+              className={`relative rounded-md border bg-white ${
+                errors.phone
+                  ? "border-error"
+                  : "border-border focus-within:border-accent"
+              }`}
+            >
+              <label
+                htmlFor="phone"
+                className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted"
+              >
+                Phone
+              </label>
+              <div className="flex items-center">
+                <span className="pl-3 text-muted">{FlagIcon()}</span>
+                <span className="pr-1 text-sm text-foreground">+1</span>
+                <input
+                  id="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel-national"
+                  value={field.value}
+                  onChange={(event) => {
+                    const digits = event.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 10);
+                    field.onChange(formatPhoneDisplay(digits));
+                  }}
+                  onBlur={() => {
+                    field.onBlur();
+                    onPhoneBlur();
+                  }}
+                  placeholder="774 415 3244"
+                  className="w-full bg-transparent py-3 pr-3 text-sm text-foreground outline-none placeholder:text-gray-400"
+                />
+              </div>
+            </div>
+            {errors.phone ? (
+              <p className="mt-1 text-xs text-error">{errors.phone.message}</p>
+            ) : null}
+          </div>
         )}
       />
 
