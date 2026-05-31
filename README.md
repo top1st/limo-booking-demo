@@ -147,10 +147,40 @@ data/seed.json            # Demo customer seed data
 | `npm run build` | Production build (uses webpack on Windows) |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
+| `npm run test` | Run all tests (API + frontend) |
+| `npm run test:api` | Run API route tests only |
+| `npm run test:frontend` | Run frontend/component tests only |
+| `npm run test:watch` | Run tests in watch mode |
 | `npm run db:generate` | Generate Prisma client |
 | `npm run db:migrate` | Run migrations (dev) |
 | `npm run db:push` | Push schema without migration files |
 | `npm run db:seed` | Seed demo customers |
+
+## Testing
+
+The project uses **Vitest** + **Testing Library** and is split into two suites:
+
+- **API tests** (`tests/api`) for route handlers:
+  - `GET /api/customers/lookup`
+  - `POST /api/bookings`
+- **Frontend tests** (`tests/frontend`) for key UI behavior:
+  - Home page render
+  - Service type toggle interactions
+  - Floating input error rendering
+
+Run commands:
+
+```bash
+npm run test:api
+npm run test:frontend
+npm run test
+```
+
+Latest local verification:
+
+- `test:api` passed (`5/5`)
+- `test:frontend` passed (`3/3`)
+- `test` passed (`8/8`)
 
 ## Notes
 
