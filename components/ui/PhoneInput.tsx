@@ -4,7 +4,10 @@ import { InputHTMLAttributes, useEffect, useRef } from "react";
 import { formatPhoneDisplay } from "@/lib/phone";
 
 interface PhoneInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
+  extends Omit<
+    InputHTMLAttributes<HTMLInputElement>,
+    "value" | "onChange" | "prefix"
+  > {
   value: string;
   onChange: (value: string) => void;
   prefix?: React.ReactNode;
