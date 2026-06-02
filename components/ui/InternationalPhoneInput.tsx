@@ -1,5 +1,6 @@
 "use client";
 
+import { PhoneCountrySelect } from "@/components/ui/PhoneCountrySelect";
 import PhoneInput, { type Value } from "react-phone-number-input";
 import en from "react-phone-number-input/locale/en.json";
 import "react-phone-number-input/style.css";
@@ -35,6 +36,8 @@ export function InternationalPhoneInput({
         disabled={disabled}
         placeholder={placeholder}
         className="PhoneInput--custom"
+        countrySelectComponent={PhoneCountrySelect}
+        countrySelectProps={{ className: "PhoneInputCountrySelect--custom" }}
       />
     </div>
   );

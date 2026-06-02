@@ -18,7 +18,9 @@ function PhoneInputHarness() {
 }
 
 describe("InternationalPhoneInput", () => {
-  it("renders country dropdown with accessible label", () => {
+  it("renders country trigger and opens custom country list", async () => {
+    const user = userEvent.setup();
+
     render(
       <InternationalPhoneInput
         id="phone"
@@ -30,6 +32,12 @@ describe("InternationalPhoneInput", () => {
 
     expect(screen.getByLabelText("Phone number country")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("774 415 3244")).toBeInTheDocument();
+
+    await user.click(screen.getByLabelText("Phone number country"));
+
+    expect(screen.getByRole("dialog", { name: "Choose country" })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Search country or code")).toBeInTheDocument();
+    expect(screen.getByText("United States")).toBeInTheDocument();
   });
 
   it("accepts a US number", async () => {

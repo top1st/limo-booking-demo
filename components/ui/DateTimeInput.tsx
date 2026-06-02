@@ -6,8 +6,10 @@ import {
   FieldIcon,
   PickerChevronIcon,
 } from "@/components/ui/FieldIcons";
+import { DatePickerPopover } from "@/components/ui/DatePickerPopover";
+import { TimePickerPopover } from "@/components/ui/TimePickerPopover";
 import { Control, Controller, FieldErrors } from "react-hook-form";
-import { useRef } from "react";
+import { useId, useState } from "react";
 import { formatDateDisplay, formatTimeDisplay } from "@/lib/datetime";
 import type { BookingFormValues } from "@/lib/validation";
 
@@ -20,20 +22,6 @@ interface DateTimeFieldProps {
   icon: React.ReactNode;
 }
 
-function openPicker(input: HTMLInputElement | null) {
-  if (!input) {
-    return;
-  }
-
-  input.focus();
-
-  if (typeof input.showPicker === "function") {
-    input.showPicker();
-  } else {
-    input.click();
-  }
-}
-
 function DateTimeField({
   label,
   value,
@@ -42,45 +30,69 @@ function DateTimeField({
   type,
   icon,
 }: DateTimeFieldProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const inputId = `${label.toLowerCase()}-input`;
+  const [open, setOpen] = useState(false);
+  const labelId = useId();
   const displayValue =
     type === "date" ? formatDateDisplay(value) : formatTimeDisplay(value);
 
+  const close = () => {
+    setOpen(false);
+    onBlur?.();
+  };
+
+  const toggle = () => {
+    setOpen((current) => !current);
+  };
+
   return (
-    <div className="relative flex-1">
-      <label htmlFor={inputId} className="input-label">
+    <div className="relative flex-1" data-picker-root>
+      <span id={labelId} className="input-label">
         {label}
-      </label>
+      </span>
       <div className="flex items-center">
         <FieldIcon>{icon}</FieldIcon>
         <button
           type="button"
-          onClick={() => openPicker(inputRef.current)}
+          onClick={toggle}
           className="flex min-w-0 flex-1 items-center px-2 py-3 text-left text-sm text-foreground"
+          aria-expanded={open}
+          aria-haspopup="dialog"
         >
-          {displayValue}
+          {displayValue || (
+            <span className="text-muted/60">
+              {type === "date" ? "Select date" : "Select time"}
+            </span>
+          )}
         </button>
         <button
           type="button"
-          onClick={() => openPicker(inputRef.current)}
-          className="datetime-picker-trigger"
+          onClick={toggle}
+          className={`datetime-picker-trigger ${open ? "datetime-picker-trigger--open" : ""}`}
           aria-label={`Open ${label.toLowerCase()} picker`}
+          aria-expanded={open}
         >
           <PickerChevronIcon />
         </button>
-        <input
-          ref={inputRef}
-          id={inputId}
-          type={type}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          onBlur={onBlur}
-          className="pointer-events-none absolute h-0 w-0 opacity-0"
-          tabIndex={-1}
-          aria-hidden="true"
-        />
       </div>
+
+      {type === "date" ? (
+        <DatePickerPopover
+          open={open}
+          onClose={close}
+          labelId={labelId}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <TimePickerPopover
+          open={open}
+          onClose={close}
+          labelId={labelId}
+          value={value}
+          onChange={onChange}
+          align="right"
+        />
+      )}
     </div>
   );
 }
