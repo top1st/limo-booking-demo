@@ -3,6 +3,7 @@
 import { Control, Controller, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { MiniToggle } from "@/components/ui/ToggleButton";
 import { FloatingSelect } from "@/components/ui/FloatingInput";
+import { PickupDateTimeFields } from "@/components/ui/DateTimeInput";
 import { LocationAutocomplete } from "@/components/LocationAutocomplete";
 import type { BookingFormValues } from "@/lib/validation";
 import type { PlaceLocation, RouteEstimate } from "@/lib/types";
@@ -19,24 +20,6 @@ interface LocationSectionProps {
   routeEstimate?: RouteEstimate | null;
   routeLoading?: boolean;
   routeError?: string | null;
-}
-
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2 6h12M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M8 5v3l2 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 export function LocationSection({
@@ -84,77 +67,7 @@ export function LocationSection({
       <h2 className="text-base font-semibold text-foreground">{title}</h2>
 
       {showDateTime ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Controller
-            name="pickupDate"
-            control={control}
-            render={({ field }) => (
-              <div>
-                <div
-                  className={`relative rounded-md border bg-white ${
-                    errors.pickupDate
-                      ? "border-error"
-                      : "border-border focus-within:border-accent"
-                  }`}
-                >
-                  <label className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted">
-                    Date
-                  </label>
-                  <div className="flex items-center">
-                    <span className="pl-3 text-muted">
-                      <CalendarIcon />
-                    </span>
-                    <input
-                      type="date"
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      className="w-full bg-transparent px-3 py-3 text-sm outline-none"
-                    />
-                  </div>
-                </div>
-                {errors.pickupDate ? (
-                  <p className="mt-1 text-xs text-error">{errors.pickupDate.message}</p>
-                ) : null}
-              </div>
-            )}
-          />
-
-          <Controller
-            name="pickupTime"
-            control={control}
-            render={({ field }) => (
-              <div>
-                <div
-                  className={`relative rounded-md border bg-white ${
-                    errors.pickupTime
-                      ? "border-error"
-                      : "border-border focus-within:border-accent"
-                  }`}
-                >
-                  <label className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted">
-                    Time
-                  </label>
-                  <div className="flex items-center">
-                    <span className="pl-3 text-muted">
-                      <ClockIcon />
-                    </span>
-                    <input
-                      type="time"
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      className="w-full bg-transparent px-3 py-3 text-sm outline-none"
-                    />
-                  </div>
-                </div>
-                {errors.pickupTime ? (
-                  <p className="mt-1 text-xs text-error">{errors.pickupTime.message}</p>
-                ) : null}
-              </div>
-            )}
-          />
-        </div>
+        <PickupDateTimeFields control={control} errors={errors} />
       ) : null}
 
       {showHourlyDuration ? (
