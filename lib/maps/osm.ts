@@ -4,6 +4,7 @@ import { formatDistance, formatDuration } from "./format";
 interface OsrmRoute {
   distance: number;
   duration: number;
+  geometry?: { coordinates?: [number, number][] };
 }
 
 interface OsrmResponse {
@@ -51,7 +52,7 @@ export async function getOsmRouteEstimate(
   const coordinates = points.map(toCoordinate).join(";");
   const baseUrl = getOsrmBaseUrl().replace(/\/$/, "");
   const response = await fetch(
-    `${baseUrl}/route/v1/driving/${coordinates}?overview=false`,
+    `${baseUrl}/route/v1/driving/${coordinates}?overview=full&geometries=geojson`,
     { cache: "no-store" },
   );
 
@@ -66,11 +67,13 @@ export async function getOsmRouteEstimate(
   }
 
   const route = data.routes[0];
+  const path = route.geometry?.coordinates?.map(([lng, lat]) => ({ lat, lng }));
 
   return {
     distanceMeters: route.distance,
     durationSeconds: Math.round(route.duration),
     distanceText: formatDistance(route.distance),
     durationText: formatDuration(Math.round(route.duration)),
+    path: path && path.length > 0 ? path : undefined,
   };
 }

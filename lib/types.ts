@@ -8,11 +8,17 @@ export interface PlaceLocation {
   lng?: number;
 }
 
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
 export interface RouteEstimate {
   distanceMeters: number;
   durationSeconds: number;
   distanceText: string;
   durationText: string;
+  path?: LatLng[];
 }
 
 export interface CustomerLookupResult {

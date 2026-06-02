@@ -1,5 +1,6 @@
 import type { PlaceLocation, RouteEstimate } from "@/lib/types";
 import { formatDistance, formatDuration } from "./format";
+import { decodePolyline } from "./polyline";
 
 interface DirectionsLeg {
   distance?: { value: number; text: string };
@@ -8,6 +9,7 @@ interface DirectionsLeg {
 
 interface DirectionsRoute {
   legs: DirectionsLeg[];
+  overview_polyline?: { points: string };
 }
 
 interface DirectionsResponse {
@@ -63,7 +65,8 @@ export async function getGoogleRouteEstimate(
     throw new Error(data.error_message ?? "Directions request failed");
   }
 
-  const legs = data.routes?.[0]?.legs ?? [];
+  const route = data.routes?.[0];
+  const legs = route?.legs ?? [];
   const distanceMeters = legs.reduce(
     (total, leg) => total + (leg.distance?.value ?? 0),
     0,
@@ -77,10 +80,13 @@ export async function getGoogleRouteEstimate(
     throw new Error("Unable to calculate route for the selected locations");
   }
 
+  const encodedPath = route?.overview_polyline?.points;
+
   return {
     distanceMeters,
     durationSeconds,
     distanceText: formatDistance(distanceMeters),
     durationText: formatDuration(durationSeconds),
+    path: encodedPath ? decodePolyline(encodedPath) : undefined,
   };
 }

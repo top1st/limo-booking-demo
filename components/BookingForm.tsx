@@ -8,6 +8,7 @@ import { LocationSection } from "@/components/LocationSection";
 import { ContactSection } from "@/components/ContactSection";
 import { FloatingInput } from "@/components/ui/FloatingInput";
 import { Button } from "@/components/ui/Button";
+import { TripMap } from "@/components/TripMap";
 import {
   bookingFormSchema,
   normalizeBookingPayload,
@@ -235,16 +236,27 @@ export function BookingForm() {
       />
 
       {serviceType === "one-way" ? (
-        <LocationSection
-          title="Drop off"
-          control={control}
-          errors={errors}
-          watch={watch}
-          setValue={setValue}
-          routeEstimate={routeEstimate}
-          routeLoading={routeLoading}
-          routeError={routeError}
-        />
+        <>
+          <LocationSection
+            title="Drop off"
+            control={control}
+            errors={errors}
+            watch={watch}
+            setValue={setValue}
+            routeEstimate={routeEstimate}
+            routeLoading={routeLoading}
+            routeError={routeError}
+          />
+          {pickupLocation && dropoffLocation ? (
+            <TripMap
+              pickup={pickupLocation}
+              dropoff={dropoffLocation}
+              stops={(stops ?? []).filter((stop) => stop.placeId)}
+              routeEstimate={routeEstimate}
+              routeLoading={routeLoading}
+            />
+          ) : null}
+        </>
       ) : (
         <LocationSection
           title="Hourly service"
