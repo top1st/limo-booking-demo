@@ -52,7 +52,7 @@ export const bookingFormSchema = z
     phone: z
       .string()
       .min(1, "Phone number is required")
-      .refine(isValidPhone, "Enter a valid US phone number"),
+      .refine(isValidPhone, "Enter a valid phone number"),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     email: z.string().optional(),

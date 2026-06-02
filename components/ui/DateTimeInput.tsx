@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  CalendarIcon,
+  ClockIcon,
+  FieldIcon,
+  PickerChevronIcon,
+} from "@/components/ui/FieldIcons";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { useRef } from "react";
 import { formatDateDisplay, formatTimeDisplay } from "@/lib/datetime";
@@ -43,28 +49,25 @@ function DateTimeField({
 
   return (
     <div className="relative flex-1">
-      <label
-        htmlFor={inputId}
-        className="absolute -top-2 left-3 z-10 bg-white px-1 text-xs text-muted"
-      >
+      <label htmlFor={inputId} className="input-label">
         {label}
       </label>
       <div className="flex items-center">
-        <span className="pl-3 text-muted [&>svg]:h-4 [&>svg]:w-4">{icon}</span>
+        <FieldIcon>{icon}</FieldIcon>
         <button
           type="button"
           onClick={() => openPicker(inputRef.current)}
-          className="flex min-w-0 flex-1 items-center px-3 py-3 text-left text-sm text-foreground"
+          className="flex min-w-0 flex-1 items-center px-2 py-3 text-left text-sm text-foreground"
         >
           {displayValue}
         </button>
         <button
           type="button"
           onClick={() => openPicker(inputRef.current)}
-          className="pr-3 text-muted [&>svg]:h-4 [&>svg]:w-4"
+          className="datetime-picker-trigger"
           aria-label={`Open ${label.toLowerCase()} picker`}
         >
-          {icon}
+          <PickerChevronIcon />
         </button>
         <input
           ref={inputRef}
@@ -82,24 +85,6 @@ function DateTimeField({
   );
 }
 
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M2 6h12M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M8 5v3l2 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 interface PickupDateTimeFieldsProps {
   control: Control<BookingFormValues>;
   errors: FieldErrors<BookingFormValues>;
@@ -113,10 +98,8 @@ export function PickupDateTimeFields({ control, errors }: PickupDateTimeFieldsPr
   return (
     <div>
       <div
-        className={`flex divide-x rounded-md border bg-white ${
-          hasError
-            ? "divide-error border-error"
-            : "divide-border border-border focus-within:border-accent"
+        className={`input-shell flex divide-x ${
+          hasError ? "input-shell--error divide-error" : "divide-border"
         }`}
       >
         <Controller
@@ -126,10 +109,10 @@ export function PickupDateTimeFields({ control, errors }: PickupDateTimeFieldsPr
             <DateTimeField
               label="Date"
               type="date"
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            icon={<CalendarIcon />}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              icon={<CalendarIcon />}
             />
           )}
         />
@@ -140,10 +123,10 @@ export function PickupDateTimeFields({ control, errors }: PickupDateTimeFieldsPr
             <DateTimeField
               label="Time"
               type="time"
-            value={field.value}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            icon={<ClockIcon />}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              icon={<ClockIcon />}
             />
           )}
         />

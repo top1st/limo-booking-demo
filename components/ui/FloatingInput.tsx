@@ -1,5 +1,6 @@
 "use client";
 
+import { FieldIcon } from "@/components/ui/FieldIcons";
 import { InputHTMLAttributes, ReactNode } from "react";
 
 interface FloatingInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -22,24 +23,15 @@ export function FloatingInput({
 
   return (
     <div className={containerClassName}>
-      <div
-        className={`relative rounded-md border bg-white ${
-          error ? "border-error" : "border-border focus-within:border-accent"
-        }`}
-      >
-        <label
-          htmlFor={inputId}
-          className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted"
-        >
+      <div className={`input-shell ${error ? "input-shell--error" : ""}`}>
+        <label htmlFor={inputId} className="input-label">
           {label}
         </label>
         <div className="flex items-center">
-          {icon ? (
-            <span className="pl-3 text-muted [&>svg]:h-4 [&>svg]:w-4">{icon}</span>
-          ) : null}
+          {icon ? <FieldIcon>{icon}</FieldIcon> : null}
           <input
             id={inputId}
-            className={`w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-gray-400 ${className}`}
+            className={`w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted/60 ${className}`}
             {...props}
           />
         </div>
@@ -70,15 +62,8 @@ export function FloatingSelect({
 
   return (
     <div className={containerClassName}>
-      <div
-        className={`relative rounded-md border bg-white ${
-          error ? "border-error" : "border-border focus-within:border-accent"
-        }`}
-      >
-        <label
-          htmlFor={selectId}
-          className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted"
-        >
+      <div className={`input-shell ${error ? "input-shell--error" : ""}`}>
+        <label htmlFor={selectId} className="input-label">
           {label}
         </label>
         <select

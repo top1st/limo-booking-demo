@@ -23,11 +23,13 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "leaflet": "^1.9.4",
+    "libphonenumber-js": "^1.13.4",
     "next": "16.2.6",
     "pg": "^8.21.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.1",
+    "react-phone-number-input": "^3.4.17",
     "zod": "^4.4.3"
   },
   "devDependencies": {

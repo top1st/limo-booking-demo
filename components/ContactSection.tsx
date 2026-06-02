@@ -1,8 +1,10 @@
 "use client";
 
 import { Control, Controller, FieldErrors } from "react-hook-form";
+import { EmailAtIcon, PersonIcon } from "@/components/ui/FieldIcons";
 import { FloatingInput } from "@/components/ui/FloatingInput";
-import { PhoneInput } from "@/components/ui/PhoneInput";
+import { InternationalPhoneInput } from "@/components/ui/InternationalPhoneInput";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { BookingFormValues } from "@/lib/validation";
 
 interface ContactSectionProps {
@@ -13,41 +15,6 @@ interface ContactSectionProps {
   lookupMessage?: string | null;
   lookupLoading?: boolean;
   onPhoneBlur: () => void;
-}
-
-function PersonIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <circle cx="8" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M3.5 13c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function EmailIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <path
-        d="M3 5.5 8 9l5-3.5M3 5.5h10v5H3v-5Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function FlagIcon() {
-  return (
-    <span className="text-base leading-none" aria-hidden="true">
-      🇺🇸
-    </span>
-  );
 }
 
 export function ContactSection({
@@ -61,7 +28,7 @@ export function ContactSection({
 }: ContactSectionProps) {
   return (
     <section className="space-y-4">
-      <h2 className="text-base font-semibold text-foreground">Contact Information</h2>
+      <SectionHeading>Contact Information</SectionHeading>
 
       <Controller
         name="phone"
@@ -69,34 +36,21 @@ export function ContactSection({
         render={({ field }) => (
           <div>
             <div
-              className={`relative rounded-md border bg-white ${
-                errors.phone
-                  ? "border-error"
-                  : "border-border focus-within:border-accent"
-              }`}
+              className={`input-shell ${errors.phone ? "input-shell--error" : ""}`}
             >
-              <label
-                htmlFor="phone"
-                className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted"
-              >
+              <label htmlFor="phone" className="input-label">
                 Phone
               </label>
-              <PhoneInput
-                  id="phone"
-                  value={field.value}
-                  onChange={field.onChange}
-                  onBlur={() => {
-                    field.onBlur();
-                    onPhoneBlur();
-                  }}
-                  placeholder="774 415 3244"
-                  prefix={
-                    <div className="mr-3 flex items-center gap-2 border-r border-border py-3 pl-3 pr-3">
-                      <span className="leading-none text-muted">{FlagIcon()}</span>
-                      <span className="text-sm font-medium text-foreground">+1</span>
-                    </div>
-                  }
-                />
+              <InternationalPhoneInput
+                id="phone"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={() => {
+                  field.onBlur();
+                  onPhoneBlur();
+                }}
+                placeholder="774 415 3244"
+              />
             </div>
             {errors.phone ? (
               <p className="mt-1 text-xs text-error">{errors.phone.message}</p>
@@ -110,7 +64,8 @@ export function ContactSection({
       ) : null}
 
       {customerFound && knownFirstName ? (
-        <p className="text-sm font-medium text-accent">
+        <p className="welcome-badge">
+          <span aria-hidden="true">✦</span>
           Welcome back, {knownFirstName}!
         </p>
       ) : null}
@@ -158,7 +113,7 @@ export function ContactSection({
             render={({ field }) => (
               <FloatingInput
                 label="Email"
-                icon={<EmailIcon />}
+                icon={<EmailAtIcon />}
                 type="email"
                 value={field.value ?? ""}
                 onChange={field.onChange}

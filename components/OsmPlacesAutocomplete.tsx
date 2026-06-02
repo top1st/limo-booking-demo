@@ -1,21 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { FieldIcon, LocationPinIcon } from "@/components/ui/FieldIcons";
 import type { LocationAutocompleteProps } from "@/components/GooglePlacesAutocomplete";
 import type { PlaceLocation } from "@/lib/types";
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <path
-        d="M8 14s4-4.5 4-7a4 4 0 1 0-8 0c0 2.5 4 7 4 7Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <circle cx="8" cy="7" r="1.5" fill="currentColor" />
-    </svg>
-  );
-}
 
 export function OsmPlacesAutocomplete({
   label = "Location",
@@ -123,18 +111,12 @@ export function OsmPlacesAutocomplete({
 
   return (
     <div ref={containerRef} className="relative">
-      <div
-        className={`relative rounded-md border bg-white ${
-          error ? "border-error" : "border-border focus-within:border-accent"
-        }`}
-      >
-        <label className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted">
-          {label}
-        </label>
+      <div className={`input-shell ${error ? "input-shell--error" : ""}`}>
+        <label className="input-label">{label}</label>
         <div className="flex items-center">
-          <span className="pl-3 text-muted">
-            <PinIcon />
-          </span>
+          <FieldIcon>
+            <LocationPinIcon />
+          </FieldIcon>
           <input
             value={displayValue}
             onChange={(event) => handleManualChange(event.target.value)}
@@ -147,7 +129,7 @@ export function OsmPlacesAutocomplete({
             role="combobox"
             aria-expanded={isOpen}
             aria-controls={listboxId}
-            className="w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-gray-400"
+            className="w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted/60"
           />
         </div>
       </div>
@@ -155,7 +137,7 @@ export function OsmPlacesAutocomplete({
       {isOpen && results.length > 0 ? (
         <ul
           id={listboxId}
-          className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-border bg-white py-1 shadow-lg"
+          className="suggestions-panel absolute z-20 mt-1 max-h-56 w-full overflow-auto py-1"
         >
           {results.map((result) => (
             <li key={result.placeId}>

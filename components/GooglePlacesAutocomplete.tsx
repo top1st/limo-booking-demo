@@ -1,5 +1,6 @@
 "use client";
 
+import { FieldIcon, LocationPinIcon } from "@/components/ui/FieldIcons";
 import { useEffect, useRef, useState } from "react";
 import { importLibrary, setOptions } from "@googlemaps/js-api-loader";
 import type { LocationType, PlaceLocation } from "@/lib/types";
@@ -11,19 +12,6 @@ export interface LocationAutocompleteProps {
   locationType: LocationType;
   error?: string;
   placeholder?: string;
-}
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <path
-        d="M8 14s4-4.5 4-7a4 4 0 1 0-8 0c0 2.5 4 7 4 7Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <circle cx="8" cy="7" r="1.5" fill="currentColor" />
-    </svg>
-  );
 }
 
 export function GooglePlacesAutocomplete({
@@ -138,24 +126,18 @@ export function GooglePlacesAutocomplete({
 
   return (
     <div>
-      <div
-        className={`relative rounded-md border bg-white ${
-          error ? "border-error" : "border-border focus-within:border-accent"
-        }`}
-      >
-        <label className="absolute -top-2 left-3 bg-white px-1 text-xs text-muted">
-          {label}
-        </label>
+      <div className={`input-shell ${error ? "input-shell--error" : ""}`}>
+        <label className="input-label">{label}</label>
         <div className="flex items-center">
-          <span className="pl-3 text-muted">
-            <PinIcon />
-          </span>
+          <FieldIcon>
+            <LocationPinIcon />
+          </FieldIcon>
           <input
             ref={inputRef}
             value={displayValue}
             onChange={(event) => handleManualChange(event.target.value)}
             placeholder={placeholder}
-            className="w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-gray-400"
+            className="w-full bg-transparent px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted/60"
           />
         </div>
       </div>

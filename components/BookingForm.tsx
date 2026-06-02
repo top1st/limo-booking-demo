@@ -6,8 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ServiceTypeToggle } from "@/components/ServiceTypeToggle";
 import { LocationSection } from "@/components/LocationSection";
 import { ContactSection } from "@/components/ContactSection";
+import { HashIcon } from "@/components/ui/FieldIcons";
 import { FloatingInput } from "@/components/ui/FloatingInput";
 import { Button } from "@/components/ui/Button";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { StatusBanner } from "@/components/ui/StatusBanner";
 import { TripMap } from "@/components/TripMap";
 import {
   bookingFormSchema,
@@ -16,19 +19,6 @@ import {
 } from "@/lib/validation";
 import { isValidPhone, normalizePhone } from "@/lib/phone";
 import type { BookingResponse, RouteEstimate } from "@/lib/types";
-
-function HashIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
-      <path
-        d="M5 3 3 13M13 3l-2 10M2 6h12M1.5 10h12"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 function getDefaultDate() {
   const date = new Date();
@@ -213,7 +203,8 @@ export function BookingForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8">
+    <form onSubmit={onSubmit} className="space-y-9">
+      <div className="pb-1">
       <ServiceTypeToggle
         value={serviceType}
         onChange={(value) => {
@@ -224,6 +215,9 @@ export function BookingForm() {
           }
         }}
       />
+      </div>
+
+      <hr className="border-0 border-t border-border/80" aria-hidden="true" />
 
       <LocationSection
         title="Pickup"
@@ -268,6 +262,8 @@ export function BookingForm() {
         />
       )}
 
+      <hr className="border-0 border-t border-border/80" aria-hidden="true" />
+
       <ContactSection
         control={control}
         errors={errors}
@@ -279,9 +275,9 @@ export function BookingForm() {
       />
 
       <section className="space-y-4">
-        <h2 className="text-base font-semibold text-foreground">
+        <SectionHeading>
           How many passengers are expected for the trip?
-        </h2>
+        </SectionHeading>
         <FloatingInput
           label="# Passengers"
           icon={<HashIcon />}
@@ -300,18 +296,13 @@ export function BookingForm() {
       </section>
 
       {submitError ? (
-        <div className="rounded-md border border-error/30 bg-red-50 px-4 py-3 text-sm text-error">
-          {submitError}
-        </div>
+        <StatusBanner variant="error">{submitError}</StatusBanner>
       ) : null}
 
       {submitSuccess ? (
-        <div className="rounded-md border border-accent/30 bg-accent-light px-4 py-3 text-sm text-foreground">
-          <p className="font-medium">{submitSuccess.message}</p>
-          <p className="mt-1 text-muted">
-            Booking ID: {submitSuccess.bookingId}
-          </p>
-        </div>
+        <StatusBanner variant="success" title={submitSuccess.message}>
+          Booking ID: {submitSuccess.bookingId}
+        </StatusBanner>
       ) : null}
 
       <Button type="submit" fullWidth disabled={isSubmitting}>

@@ -26,10 +26,10 @@ interface TripMapProps {
 function TripMapSkeleton() {
   return (
     <div
-      className="flex h-[280px] items-center justify-center rounded-md bg-accent-light text-sm text-muted"
+      className="flex h-[280px] items-center justify-center rounded-md bg-gradient-to-br from-accent-light to-background-warm text-sm text-muted"
       aria-hidden="true"
     >
-      Loading map...
+      <span className="animate-pulse">Loading map…</span>
     </div>
   );
 }
@@ -59,8 +59,8 @@ export function TripMap({
 
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-medium text-foreground">Trip map</h3>
-      <div className="relative overflow-hidden rounded-md border border-border">
+      <h3 className="font-display text-base font-medium text-foreground">Trip map</h3>
+      <div className="relative overflow-hidden rounded-md border border-border shadow-sm">
         {provider === "google" ? (
           <GoogleTripMap
             pickup={pickup}

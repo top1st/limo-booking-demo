@@ -1,6 +1,7 @@
 "use client";
 
 import { Control, Controller, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { MiniToggle } from "@/components/ui/ToggleButton";
 import { FloatingSelect } from "@/components/ui/FloatingInput";
 import { PickupDateTimeFields } from "@/components/ui/DateTimeInput";
@@ -64,7 +65,7 @@ export function LocationSection({
 
   return (
     <section className="space-y-4">
-      <h2 className="text-base font-semibold text-foreground">{title}</h2>
+      <SectionHeading>{title}</SectionHeading>
 
       {showDateTime ? (
         <PickupDateTimeFields control={control} errors={errors} />
@@ -151,7 +152,7 @@ export function LocationSection({
             <button
               type="button"
               onClick={addStop}
-              className="text-sm font-medium text-accent hover:text-accent-hover"
+              className="text-sm font-medium text-accent underline-offset-4 transition-colors hover:text-accent-hover hover:underline"
             >
               + Add a stop
             </button>
@@ -160,7 +161,7 @@ export function LocationSection({
       ) : null}
 
       {routeEstimate || routeLoading || routeError ? (
-        <div className="rounded-md border border-border bg-accent-light px-4 py-3 text-sm">
+        <div className="route-chip text-sm">
           {routeLoading ? <p className="text-muted">Calculating route...</p> : null}
           {routeError ? <p className="text-error">{routeError}</p> : null}
           {routeEstimate ? (

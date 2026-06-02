@@ -34,7 +34,7 @@ function HourlyIcon() {
 
 export function ServiceTypeToggle({ value, onChange }: ServiceTypeToggleProps) {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3" role="group" aria-label="Service type">
       <ToggleButton
         selected={value === "one-way"}
         onClick={() => onChange("one-way")}

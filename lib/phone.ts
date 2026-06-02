@@ -1,5 +1,25 @@
+import {
+  isPossiblePhoneNumber,
+  isValidPhoneNumber,
+  parsePhoneNumberFromString,
+} from "libphonenumber-js";
+
 export function normalizePhone(phone: string): string {
-  const digits = phone.replace(/\D/g, "");
+  const trimmed = phone.trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  try {
+    const parsed = parsePhoneNumberFromString(trimmed);
+    if (parsed?.isValid()) {
+      return parsed.format("E.164");
+    }
+  } catch {
+    // fall through to digit normalization
+  }
+
+  const digits = trimmed.replace(/\D/g, "");
 
   if (digits.length === 10) {
     return `+1${digits}`;
@@ -9,7 +29,7 @@ export function normalizePhone(phone: string): string {
     return `+${digits}`;
   }
 
-  if (phone.trim().startsWith("+")) {
+  if (trimmed.startsWith("+")) {
     return `+${digits}`;
   }
 
@@ -17,7 +37,19 @@ export function normalizePhone(phone: string): string {
 }
 
 export function formatPhoneDisplay(phone: string): string {
-  const digits = phone.replace(/\D/g, "");
+  const trimmed = phone.trim();
+
+  try {
+    const parsed = parsePhoneNumberFromString(trimmed);
+    if (parsed?.isValid()) {
+      const national = parsed.formatNational();
+      return national.replace(/^\+\d+\s*/, "").trim();
+    }
+  } catch {
+    // fall through
+  }
+
+  const digits = trimmed.replace(/\D/g, "");
   const national =
     digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
 
@@ -34,5 +66,14 @@ export function formatPhoneDisplay(phone: string): string {
 
 export function isValidPhone(phone: string): boolean {
   const normalized = normalizePhone(phone);
+  if (!normalized) {
+    return false;
+  }
+
+  if (isValidPhoneNumber(normalized) || isPossiblePhoneNumber(normalized)) {
+    return true;
+  }
+
+  // Demo seed uses US 555 numbers that libphonenumber may reject as fictitious
   return /^\+1\d{10}$/.test(normalized);
 }

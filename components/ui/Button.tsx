@@ -13,10 +13,11 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60";
+    "inline-flex items-center justify-center rounded-md px-4 py-3.5 text-sm font-semibold tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-60";
   const variants = {
-    primary: "bg-accent text-white hover:bg-accent-hover",
-    ghost: "bg-transparent text-accent hover:bg-accent-light",
+    primary: "btn-primary text-white",
+    ghost:
+      "bg-transparent text-accent hover:bg-accent-light hover:text-accent-hover",
   };
 
   return (

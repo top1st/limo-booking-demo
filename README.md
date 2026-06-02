@@ -12,6 +12,7 @@ A full-stack booking form demo for airport transportation and limousine reservat
 - Switchable maps provider via env (`MAPS_PROVIDER=google|osm`)
 - **OpenStreetMap (default):** Photon geocoding + OSRM routing — no billing required
 - **Google Maps (optional):** Places Autocomplete + Directions API
+- International phone input with country flag dropdown (**react-phone-number-input** + **libphonenumber-js**)
 - Phone lookup with PostgreSQL persistence via **Prisma**
   - Known numbers: greet returning customers by first name
   - Unknown numbers: collect first name, last name, and email
