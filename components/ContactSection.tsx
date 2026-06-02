@@ -91,10 +91,10 @@ export function ContactSection({
                   }}
                   placeholder="774 415 3244"
                   prefix={
-                    <>
-                      <span className="pl-3 text-muted">{FlagIcon()}</span>
-                      <span className="pr-1 text-sm text-foreground">+1</span>
-                    </>
+                    <div className="mr-3 flex items-center gap-2 border-r border-border py-3 pl-3 pr-3">
+                      <span className="leading-none text-muted">{FlagIcon()}</span>
+                      <span className="text-sm font-medium text-foreground">+1</span>
+                    </div>
                   }
                 />
             </div>
