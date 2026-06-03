@@ -45,7 +45,10 @@ function DateTimeField({
   };
 
   return (
-    <div className="relative flex-1" data-picker-root>
+    <div
+      className={`datetime-field relative flex-1 ${type === "time" ? "datetime-field--time" : "datetime-field--date"}`}
+      data-picker-root
+    >
       <span id={labelId} className="input-label">
         {label}
       </span>
@@ -54,7 +57,7 @@ function DateTimeField({
         <button
           type="button"
           onClick={toggle}
-          className="flex min-w-0 flex-1 items-center px-2 py-3 text-left text-sm text-foreground"
+          className="datetime-field__value flex min-w-0 flex-1 items-center whitespace-nowrap px-2 py-3 text-left text-sm text-foreground"
           aria-expanded={open}
           aria-haspopup="dialog"
         >
@@ -110,8 +113,8 @@ export function PickupDateTimeFields({ control, errors }: PickupDateTimeFieldsPr
   return (
     <div>
       <div
-        className={`input-shell flex divide-x ${
-          hasError ? "input-shell--error divide-error" : "divide-border"
+        className={`input-shell datetime-fields ${
+          hasError ? "input-shell--error" : ""
         }`}
       >
         <Controller

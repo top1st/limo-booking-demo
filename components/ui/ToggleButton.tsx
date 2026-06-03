@@ -37,25 +37,36 @@ interface MiniToggleProps {
   options: Array<{ value: string; label: string }>;
   value: string;
   onChange: (value: string) => void;
+  "aria-label"?: string;
 }
 
-export function MiniToggle({ options, value, onChange }: MiniToggleProps) {
+export function MiniToggle({
+  options,
+  value,
+  onChange,
+  "aria-label": ariaLabel = "Location type",
+}: MiniToggleProps) {
   return (
-    <div className="inline-flex rounded-md border border-border bg-accent-light/40 p-0.5 shadow-sm">
-      {options.map((option) => (
-        <button
-          key={option.value}
-          type="button"
-          onClick={() => onChange(option.value)}
-          className={`rounded px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
-            value === option.value
-              ? "border border-accent bg-surface text-accent shadow-sm"
-              : "border border-transparent text-muted hover:text-foreground"
-          }`}
-        >
-          {option.label}
-        </button>
-      ))}
+    <div className="segmented-toggle segmented-toggle--mini" role="group" aria-label={ariaLabel}>
+      <div className="segmented-toggle__track">
+        {options.map((option) => {
+          const selected = value === option.value;
+
+          return (
+            <button
+              key={option.value}
+              type="button"
+              aria-pressed={selected}
+              onClick={() => onChange(option.value)}
+              className={`segmented-toggle__option ${
+                selected ? "segmented-toggle__option--selected" : ""
+              }`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

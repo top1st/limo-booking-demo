@@ -11,6 +11,8 @@
   --accent-hover: #b08f4d;
   --accent-light: #f7f2e8;
   --accent-muted: #d4c4a0;
+  --service-toggle-border: #e5e5e5;
+  --service-toggle-inactive: #2d2926;
   --error: #c0392b;
   --surface: #ffffff;
   --shadow-soft: 0 4px 24px -4px rgb(51 51 51 / 0.08);
@@ -82,6 +84,48 @@ body {
   box-shadow:
     var(--shadow-soft),
     0 0 0 3px color-mix(in srgb, var(--error) 12%, transparent);
+}
+
+/* Date + time fields — stack on mobile, side-by-side on sm+ */
+.datetime-fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.datetime-fields > .datetime-field + .datetime-field {
+  border-top: 1px solid var(--border);
+}
+
+.datetime-fields.input-shell--error > .datetime-field + .datetime-field {
+  border-top-color: var(--error);
+}
+
+.datetime-field__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 640px) {
+  .datetime-fields {
+    flex-direction: row;
+  }
+
+  .datetime-fields > .datetime-field + .datetime-field {
+    border-top: none;
+    border-left: 1px solid var(--border);
+  }
+
+  .datetime-fields.input-shell--error > .datetime-field + .datetime-field {
+    border-left-color: var(--error);
+  }
+}
+
+@media (max-width: 639px) {
+  .datetime-field--time .picker-popover {
+    left: 0;
+    right: auto;
+    width: min(17.5rem, calc(100vw - 2rem));
+  }
 }
 
 .input-label {
@@ -532,6 +576,72 @@ body {
   background: var(--accent-light);
   color: var(--accent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* Segmented toggle — service type, location/airport mini, etc. */
+.segmented-toggle__track {
+  display: flex;
+  gap: 0.5rem;
+  padding: 5px;
+  border-radius: 12px;
+  border: 1px solid var(--service-toggle-border);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.segmented-toggle--full .segmented-toggle__track {
+  width: 100%;
+}
+
+.segmented-toggle--mini .segmented-toggle__track {
+  display: inline-flex;
+  min-width: 11.5rem;
+}
+
+.segmented-toggle__option {
+  flex: 1;
+  border: none;
+  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  color: var(--service-toggle-inactive);
+  background: transparent;
+  cursor: pointer;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.2s;
+}
+
+.segmented-toggle--mini .segmented-toggle__option {
+  padding: 0.4375rem 1.125rem;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+}
+
+.segmented-toggle__option:hover:not(.segmented-toggle__option--selected) {
+  background-color: rgb(249 250 251);
+  color: var(--foreground);
+}
+
+.segmented-toggle--mini
+  .segmented-toggle__option:hover:not(.segmented-toggle__option--selected) {
+  background-color: rgb(243 244 246);
+}
+
+.segmented-toggle__option--selected {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--accent) 38%, transparent);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.2s;
+}
+
+.segmented-toggle__option--selected:hover {
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .route-chip {

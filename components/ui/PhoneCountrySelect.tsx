@@ -27,8 +27,7 @@ interface PhoneCountrySelectProps {
   onBlur?: () => void;
   iconComponent?: ElementType<{
     country: string;
-    countryName?: string;
-    label?: string;
+    label: string;
   }>;
   "aria-label"?: string;
 }
@@ -165,9 +164,7 @@ export function PhoneCountrySelect({
         className={`country-select-option ${isSelected ? "country-select-option--selected" : ""}`}
       >
         <span className="country-select-option__flag">
-          {Icon ? (
-            <Icon country={option.value} countryName={option.label} label={option.label} />
-          ) : null}
+          {Icon ? <Icon country={option.value} label={option.label} /> : null}
         </span>
         <span className="country-select-option__label">{option.label}</span>
         <span className="country-select-option__code">{callingCode}</span>
@@ -193,7 +190,7 @@ export function PhoneCountrySelect({
       >
         <span className="phone-country-trigger__flag">
           {value && Icon ? (
-            <Icon country={value} countryName={selected?.label ?? value} label={selected?.label} />
+            <Icon country={value} label={selected?.label ?? value} />
           ) : null}
         </span>
         <PickerChevronIcon />
