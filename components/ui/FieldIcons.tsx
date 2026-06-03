@@ -77,12 +77,7 @@ export function HashIcon() {
 
 export function LocationPinIcon() {
   return (
-    <GlyphIcon>
-      <path
-        fill="currentColor"
-        d="M10 2a5 5 0 0 0-5 5c0 3.75 5 10.5 5 10.5s5-6.75 5-10.5a5 5 0 0 0-5-5Zm0 6.75a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5Z"
-      />
-    </GlyphIcon>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
   );
 }
 
